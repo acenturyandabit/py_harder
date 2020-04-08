@@ -8,7 +8,7 @@ To start off, let's write a program that makes a 20x20 grid filled with the char
 
 <details>
   <summary>Show me the answer</summary>
-  
+
     grid = []
     for i in range(20):
         row = []
@@ -38,12 +38,12 @@ while player is alive:
 SHOW score
 ```
 
-Notice here that I have two big types of things: one is nouns like `player` or `gladiator`; the other is verbs like `GET` or `UPDATE` or `SHOW`. We make the distinction between nouns and verbs in grammar, and we also do so in coding. 
+Notice here that I have two big types of things: one is nouns like `player` or `gladiator`; the other is verbs like `GET` or `UPDATE` or `SHOW`. We make the distinction between nouns and verbs in grammar, and we also do so in coding.
 
 We've met nouns before: they are our variables. But what of our verbs?
 
 ## 3 Functions
-Functions are verbs, inasmuch as they do things to other things. You're probably already familiar with a few functions, like `print`. Functions typically have regular brackets (the curved ones) to indicate they are fractions:
+Functions are verbs, in as much as they do things to other things. Functions in Python are everywhere, you're probably already familiar with a few functions, like `print`. When we talk about functions from now on, we'll be talking about user defined function. Functions in computer science work just like functions in maths, e.g. sin(x). Our function name is sin() our parameter is x and our returned result is the output of sin(x). Functions typically have regular brackets (the curved ones) to indicate they are functions:
 
 ```
 function()
@@ -51,9 +51,9 @@ list = []
 dictionary = {}
 ```
 
-Now, if we think about verbs, some verbs have objects attached to them. For example, I kick a BALL. I can also kick a number of other things; in that sense, we know that the ball is separate to the kick, and we may need to specify what we want to kick. 
+Now, if we think about verbs, some verbs have objects attached to them. For example, I kick a BALL. I can also kick a number of other things; in that sense, we know that the ball is separate to the kick, and we may need to specify what we want to kick.
 
-In functions, the objects that we are acting on are called `arguments`. An additional quirk of functions is that they can produce a result, known as a `return value`. A typical function looks like this:
+In functions, the objects that we are acting on are called `arguments` or  `parameters`. An additional quirk of functions is that they can produce a result, known as a `return value`. A typical function looks like this:
 
 ```
 pot = makePot(clay);
@@ -73,7 +73,7 @@ So what kind of functions will we need for our gladiator game? What might they n
 
 </details>
 
-Functions are made up of smaller actions. For example, the set of commands we used at the start is just enough to create a ring. 
+Functions are made up of smaller actions. For example, the set of commands we used at the start is just enough to create a ring.
 
     grid = []
     for i in range(20):
@@ -82,6 +82,16 @@ Functions are made up of smaller actions. For example, the set of commands we us
             row.push('.')
         grid.push(row)
 
+How do we create a function? We need to tell python that we are going to declare a literal as a function! We can do this using the key word `def`:
+```python
+def add_fun(my_number):
+  my_number += 2
+  return my_number
+
+num = 2
+new_num = add_fun(num)
+print(new_num)
+```
 
 ## 4 Classes
 Now, our high level design looks pretty simple, but that's just because we haven't dived deeper yet. When we look at our ring more closely, what does it actually contain?
@@ -89,7 +99,22 @@ Now, our high level design looks pretty simple, but that's just because we haven
 - The ring itself
 - The gladiators
 
-We could keep those variables separate, or we could lump them together in one single variable like we did in our high level design. Doing this makes an object (in python, this is called a `class`). Inside a class, we can keep both variables and functions. 
+We could keep those variables separate, or we could lump them together in one single variable like we did in our high level design. Doing this makes an object (in python, this is called a `class`). Inside a class, we can keep both variables and functions. Variables of a class are known as `attributes` and functions are called `methods`.
+
+To access an object's attributes we call object_name.attribute methods are accessed with object_name.method():
+
+```python
+class Dog():
+  def __init__(self, breed, name): #What is this? Check out section 6 for more information 
+    self.name = name 
+    self.breed = breed
+  def bark(self): # This is a method! Note the def keyword used for Functions
+    print("WOOF!")
+
+rover = Dog("Labrador", "rover")
+rover.breed #returns Labrador
+rover.bark() #prints WOOF!
+```
 
 Let's start with a class for the player first:
 
@@ -121,8 +146,8 @@ class player:
                 else:
                     print ("That's not a valid move. Try again.")
                     validMove = False
-            
-            # handle the move 
+
+            # handle the move
             for [all other gladiators]:
                 if gladiator.x = x+deltaX and gladiator.y = y+deltaY:
                     gladiator.takeHit()
@@ -142,7 +167,7 @@ class player:
         if hp==0:
             print("Oh no! You died! Your score was " + str(score) ".")
             exit()
-    
+
 ```
 
 ## 5 Inheritance
@@ -169,7 +194,7 @@ class player(person):
         pass
     def takeHit():
         # see above
-        pass 
+        pass
 
 class gladiator(person):
     def move():
@@ -181,33 +206,44 @@ class gladiator(person):
 ```
 
 ## 6 Instantiation
-Grappling (get it?) with the idea of a gladiator, we come to realise that we'll need multiple gladiators, but we only have one class! Luckily, there is a way to get over that: instantiation. Classes are more like templates; so we need to instantiate them to get instances of the (template) class. We can do this by calling the class as a function:
+Grappling (get it?) with the idea of a gladiator, we come to realise that we'll need multiple gladiators, but we only have one class! Luckily, there is a way to get over that: instantiation. Classes are more like templates or blueprints; so we need to instantiate them to get instances of the (template) class. We can think of this like our abstract ideas about something vs. a real world depiction of them. For example, we all have an idea of what a "dog" is. This is our class template. But an actual physical dog is not the same as our abstract template. A physical dog like your Grandma's poodle is the instantiated object. We create multiple objects from one class by calling the class as a function and passing parameters:
 
 ```python
 player = player()
 gladiator1 = gladiator()
 ```
-and so on. 
+and so on.
 
 When we instantiate a class, a special function is called in the class, if we have defined it: the `__init__` function. We can declare it like this:
 
 ```python
+class Person:
+  def __init__(self, grid):
+    # The "self" parameter is a special parameter that refers to this specific instance of the class. This is how python knows which player we're talking about 
+    self.x = x# something
+    self.y = y# something
+    self.hp = 10# something
+    self.grid = grid 
+    # Save the grid so we can access it later.
+  def move():
+        # Both the player and the gladiator move, but they move differently. We put this option here so that it can be filled in differently by the different subclasses that derive from person.
+        pass
+  def takeHit():
+      pass
+
 class player(person):
     def __init__(self,grid):
-        # The "self" parameter is a special parameter that refers to this specific instance of the class.
-        self.x=grid.width/2
-        self.y=grid.height/2
-        self.hp=10
-        self.grid=grid # Save the grid so we can access it later.
-    # other functions go here
+      x = grid/2
+      y = grid/2
+      super().__init__(self, grid, x, y) # here we are calling the parent class init function
+          # other functions go here
 
 class gladiator(person):
     def __init__(self,grid):
         # The "self" parameter is a special parameter that refers to this specific instance of the class.
-        self.x=# a random x
-        self.y=# a random y
-        self.hp=10
-        self.grid=grid # Save the grid so we can access it later.
+        x=# a random x
+        y=# a random y
+        super().__init__(self, grid, x, y)# here we are calling the parent class init function
     # other functions go here
 
 ```
@@ -215,7 +251,7 @@ class gladiator(person):
 ## 7 Libraries
 Ok, we're almost at the end. But we still have a few difficult holes to fill. For example, how exactly are we going to get a random x value for the gladiator's spawn point?
 
-The answer is libraries. Libraries are collections of functions that have been done for you, so you can focus on actual useful stuff. But python won't automatically fetch all the functions in the world for us! We need to tell python to specifically import a library, so that we can use it. 
+The answer is libraries. Libraries are collections of functions that have been done for you, so you can focus on actual useful stuff. But python won't automatically fetch all the functions in the world for us! We need to tell python to specifically import a library, so that we can use it.
 
 ```python
 import random
@@ -226,4 +262,3 @@ aRandomInteger = math.floor(aRandomNumber()*100)
 ```
 
 And that's all the bits and pieces you'll need! The rest of the gladiator game is left as an exercise to the reader... or you could check out the `gladiator.py` file in this repository.
-
